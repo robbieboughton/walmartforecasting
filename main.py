@@ -9,8 +9,8 @@ import os
 import pandas as pd
 import numpy as np
 
-if os.getcwd() == 'C:\\Users\\robbi':
-    os.chdir('ML projects/wm_sales')
+if os.getcwd() == 'C:\\Users\\robbi\\ML projects\\wm_sales':
+    os.chdir('walmartforecasting')
 
 features = pd.read_csv('features.csv.zip')
 test = pd.read_csv('test.csv.zip')
@@ -23,3 +23,9 @@ for c in merged_train.columns:
         print(c)
     if c.startswith("MarkDown"):
         merged_train[c].fillna(0, inplace=True)
+
+# Sorting Values before lagging values to ensure correct chronologics.
+merged_train.sort_values(['Store','Dept','Date'])
+
+# Lagging process
+merged_train['lag_1'] = merged_train.groupby(['Store','Date'])['Weekly_Sales'].shift(1)
