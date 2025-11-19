@@ -9,8 +9,8 @@ import os
 import pandas as pd
 import numpy as np
 
-if os.getcwd() == 'C:\\Users\\robbi\\ML projects\\wm_sales':
-    os.chdir('walmartforecasting')
+if os.getcwd() == 'C:\\Users\\robbi':
+    os.chdir('ML projects\\wm_sales\\walmartforecasting')
 
 features = pd.read_csv('features.csv.zip')
 test = pd.read_csv('test.csv.zip')
@@ -27,5 +27,8 @@ for c in merged_train.columns:
 # Sorting Values before lagging values to ensure correct chronologics.
 merged_train.sort_values(['Store','Dept','Date'])
 
+# Ensuring date values are datetime and not string
+merged_train['Date'] = pd.to_datetime(merged_train['Date'])
+
 # Lagging process
-merged_train['lag_1'] = merged_train.groupby(['Store','Date'])['Weekly_Sales'].shift(1)
+# merged_train['lag_1'] = merged_train.groupby(['Store','Date'])['Weekly_Sales'].shift(1)
