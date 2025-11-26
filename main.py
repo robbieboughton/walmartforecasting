@@ -50,3 +50,9 @@ merged_train["roll_mean_4"] = (
 
 # Creating new merged df without empty lag_1s
 merged_model = merged_train.dropna(subset=["lag_1"]).copy()
+
+# Exogenous variables
+exog = []
+for c in merged_train.columns:
+    if c in ["Temperature", "CPI", "MarkDown1", "MarkDown2", "MarkDown3", "MarkDown4", "MarkDown5", "Fuel_Price", "Unemployment", "IsHoliday"]:
+        exog.append(c)
