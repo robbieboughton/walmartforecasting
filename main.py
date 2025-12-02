@@ -56,3 +56,27 @@ exog = []
 for c in merged_train.columns:
     if c in ["Temperature", "CPI", "MarkDown1", "MarkDown2", "MarkDown3", "MarkDown4", "MarkDown5", "Fuel_Price", "Unemployment", "IsHoliday"]:
         exog.append(c)
+        
+# Lag variables
+lag_features = []
+for c in merged_train.columns:
+    if c.startswith("lag"):
+        lag_features.append(c)
+
+# Putting them together and defining target
+        
+feature_cols = lag_features + exog
+
+target_col = "Weekly_Sales"
+
+X = merged_model[feature_cols]
+y = merged_model[target_col]
+
+# Validation split date selected as ~5 months prior to latest training example
+
+split_date = "2012-06-01"
+
+mask = merged_model.Date < split_date
+train_df = merged_model[mask]
+val_df = merged_model[~mask]
+
